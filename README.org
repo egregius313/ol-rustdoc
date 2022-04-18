@@ -1,0 +1,10 @@
+#+title: ~ol-rustdoc~ -- Basic support for Rust docs in Orgmode
+#+AUTHOR: Edward Minnix III
+
+
+Provides the ~rustdoc:~ hyperlink prefix. Syntax is the fully qualified Rust
+path, followed by a suffix for what language construct it is (e.g. ~#enum~ to
+specify it is an enum).
+
+E.g. ~rustdoc:std::cmp::Ord#trait~ will redirect to the documentation for the
+~Ord~ trait in ~std::cmp~.
