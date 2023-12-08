@@ -39,14 +39,16 @@
   :group 'ol-rustdoc)
 
 (defcustom ol-rustdoc-default-versions
-  '((std . "stable"))
+  '((std . "stable")
+    (nightly_rustc . "stable"))
   "Default version to use."
   :type '(alist :key-type symbol :value-type string))
 
 (defcustom ol-rustdoc-package-doc-hosts
   '((std . "docs.rust-lang.org")
     (serde . "docs.serde.rs")
-    (serde_json . "docs.serde.rs"))
+    (serde_json . "docs.serde.rs")
+    (nightly_rustc . "docs.rust-lang.org"))
   "Default documentation site hostnames for packages."
   :type '(alist :key-type symbol :value-type string)
   :group 'ol-rustdoc)
@@ -81,7 +83,10 @@
                      "\\2.\\1")
    (s-replace-regexp "::" "/")))
 
-(defun ol-rustdoc-format-std-url (host package version normalized-path)
+(defun ol-rustdoc-format-rustc-nightly-url (host _package version normalized-path)
+  (format "https://%s/%s/%s.html" host version (s-replace "nightly_rustc" "nightly-rustc" normalized-path)))
+
+(defun ol-rustdoc-format-std-url (host _package version normalized-path)
   (format "https://%s/%s/%s.html" host version normalized-path))
 
 (defun ol-rustdoc-format-serde-url (host package version normalized-path)
@@ -91,7 +96,8 @@
 (defcustom ol-rustdoc-formatters
   '((std . ol-rustdoc-format-std-url)
     (serde . ol-rustdoc-format-serde-url)
-    (serde_json . ol-rustdoc-format-serde-url))
+    (serde_json . ol-rustdoc-format-serde-url)
+    (nightly_rustc . ol-rustdoc-format-rustc-nightly-url))
   "Formatters for rustdoc urls."
   :type '(alist :key-type symbol :value-type function))
 
